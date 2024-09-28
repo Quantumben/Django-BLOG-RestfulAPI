@@ -134,9 +134,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.TokenAuthentication',  # Add this line
+        'rest_framework.authentication.TokenAuthentication',
     ],
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticated',  # Default permission for views
+        'rest_framework.permissions.IsAuthenticated',
     ],
+    'EXCEPTION_HANDLER': 'blog.utils.custom_exception_handler',  # Custom exception handler
 }
