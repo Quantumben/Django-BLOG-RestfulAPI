@@ -4,6 +4,9 @@ from django.contrib.auth.password_validation import validate_password
 from rest_framework.validators import UniqueValidator
 from django.core.exceptions import ValidationError
 
+from .models import Post
+from rest_framework import serializers
+
 class RegisterSerializer(serializers.ModelSerializer):
     phone_number = serializers.CharField(max_length=15)
 
@@ -29,3 +32,16 @@ class RegisterSerializer(serializers.ModelSerializer):
         user.set_password(validated_data['password'])
         user.save()
         return user
+
+
+class PostSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Post
+        fields = ['id', 'title', 'content', 'image', 'category', 'created_at', 'user']
+        read_only_fields = ['user', 'created_at']
+
+    def validate_image(self, value):
+        # Ensure image size is not more than 2MB
+        if value and value.size > 2 * 1024 * 1024:
+            raise serializers.ValidationError("Image file too large ( > 2MB )")
+        return value
