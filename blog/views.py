@@ -4,39 +4,17 @@ from rest_framework.views import APIView
 from .serializers import RegisterSerializer
 from django.contrib.auth.models import User
 from rest_framework.permissions import AllowAny
-
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
-from rest_framework.response import Response
-
-
 from rest_framework import generics
 from .models import Post
 from .serializers import PostSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.exceptions import PermissionDenied
 
-from rest_framework import generics
-from .models import Post
-from .serializers import PostSerializer
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.exceptions import PermissionDenied
 
-from rest_framework.permissions import AllowAny
-from .serializers import RegisterSerializer
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework import status
 
-from rest_framework.authtoken.views import ObtainAuthToken
-from rest_framework.authtoken.models import Token
-from rest_framework.response import Response
-from rest_framework.permissions import AllowAny
 
-from rest_framework.authtoken.views import ObtainAuthToken
-from rest_framework.authtoken.models import Token
-from rest_framework.response import Response
-from rest_framework.permissions import AllowAny
 
 class RegisterView(APIView):
     permission_classes = [AllowAny]  # No authentication required for registration
