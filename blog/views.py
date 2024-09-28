@@ -16,6 +16,12 @@ from .serializers import PostSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.exceptions import PermissionDenied
 
+from rest_framework import generics
+from .models import Post
+from .serializers import PostSerializer
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.exceptions import PermissionDenied
+
 class RegisterView(APIView):
     permission_classes = [AllowAny]
 
@@ -52,6 +58,26 @@ class PostDetailView(generics.RetrieveDestroyAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
     permission_classes = [IsAuthenticated]
+
+    def delete(self, request, *args, **kwargs):
+        post = self.get_object()
+        if post.user != request.user:
+            raise PermissionDenied("You can only delete your own post.")
+        return super().delete(request, *args, **kwargs)
+    
+
+class PostListCreateView(generics.ListCreateAPIView):
+    queryset = Post.objects.all()
+    serializer_class = PostSerializer
+    permission_classes = [IsAuthenticated]  # Enforce authentication
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+class PostDetailView(generics.RetrieveDestroyAPIView):
+    queryset = Post.objects.all()
+    serializer_class = PostSerializer
+    permission_classes = [IsAuthenticated]  # Enforce authentication
 
     def delete(self, request, *args, **kwargs):
         post = self.get_object()
